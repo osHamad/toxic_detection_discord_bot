@@ -18,4 +18,4 @@ async def on_message(message):
     if prediction == [1]:
         print('toxic')
 
-client.run('NzcyOTgzNDQwODAyNTc4NDQy.X6Cm7Q.vNR1d7D1cwS5vz6LtrMe_Am3lrs')
+client.run('token')
