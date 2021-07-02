@@ -1,0 +1,52 @@
+performance of gaussian naive bayes:
+frac: 0.25
+score out of 1: ~0.89
+confusion matrix: 
+[[6951, 311]
+[491, 226]]
+total toxic: 537
+total not toxic: 7082
+false negative rate (toxic but predicted not toxic): 0.68
+false positive rate (not toxic but predicted toxic): 0.04
+performance failure: false negative rates are too high. likely due to a class imbalance.
+
+
+
+
+performance of XGBoost:
+model frac: 0.25
+score out of 1: ~0.92
+confusion matrix:
+[[6839, 437]
+[170, 533]]
+total toxic: 537
+total not toxic: 7082
+false negative rate (toxic but predicted not toxic): 0.24
+false positive rate (not toxic but predicted toxic): 0.06
+
+performance of XGBoost:
+(after tuning hyperparameters)
+model frac: 0.75
+score out of 1: ~0.94
+false negative rate (toxic but predicted not toxic): 0.185 == 81.5%
+false positive rate (not toxic but predicted toxic): 0.052 == 94.8%
+
+
+
+
+performance of weighted svm:
+model frac: 0.5
+score out of 1: ~0.96
+confusion matrix:
+[[21347, 327]
+[639, 1623]]
+false negative rate (toxic but predicted not toxic): 0.28
+false positive rate (not toxic but predicted toxic): 0.01
+
+model frac: 0.70
+score out of 1: ~0.96
+confusion matrix:
+[[29831, 525]
+[868, 2286]]
+false negative rate (toxic but predicted not toxic): 0.27
+false positive rate (not toxic but predicted toxic): 0.02
