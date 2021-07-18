@@ -6,16 +6,19 @@ loaded_model = pickle.load(open('xgb_model.sav', 'rb'))
 loaded_vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
 
 client = commands.Bot(command_prefix='.')
+
+
 @client.event
-async  def on_ready():
+async def on_ready():
     print('bot is ready')
+
 
 @client.event
 async def on_message(message):
     msg = [message.content]
     vectorized = loaded_vectorizer.transform(msg)
     prediction = loaded_model.predict(vectorized)
-    if prediction == [1]:
-        print('toxic')
+    if prediction == [1] and message.author.id != 772983440802578442:
+        await message.channel.send('Toxic comment detected.')
 
-client.run('NzcyOTgzNDQwODAyNTc4NDQy.X6Cm7Q.vNR1d7D1cwS5vz6LtrMe_Am3lrs')
+client.run('token')
