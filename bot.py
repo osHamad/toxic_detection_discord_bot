@@ -21,4 +21,4 @@ async def on_message(message):
     if prediction == [1] and message.author.id != 772983440802578442:
         await message.channel.send('Toxic comment detected.')
 
-client.run('token')
+client.run(token)

@@ -1,6 +1,29 @@
-# toxic_detection_discord_bot
+# Toxicity Detection Discord Bot
 This program is a discord bot that detects toxic behaviour and alerts it to the server.
 The final product uses the XGBoost, an optimized gradient boosting algorithm.
+
+## Set Up
+###1. Install Requirements
+Python 3.5 or higher is needed to run the bot
+
+Run `pip install discord.py`
+
+###2. Create an Application
+* Visit the [Discord website](https://discord.com/developers/applications) and click "New Application". 
+Make sure you are signed into the Discord website.
+
+* Select a name for your bot when prompted
+
+* Click the "Bot" tab on the left, then click "Add Bot"
+
+* Under Token, click "Copy" and paste it into the token.txt file. 
+
+**Warning: Tokens should never be given to anyone unless trusted. If token is accidentally shared, click "Regenerate"**
+
+###3. Launch the Bot
+Run the following:
+
+`python bot.py`
 
 ## Algorithm Performances
 Before selecting the XGB algorithm, I tested a few algorithms to see which is the best for the job.
