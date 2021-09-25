@@ -37,7 +37,10 @@ async def on_message(message):
     vectorized = loaded_vectorizer.transform(msg)
     prediction = loaded_model.predict(vectorized)
     if prediction == [1] and message.author.id != client.user.id:
-        await message.reply('<@772983440802578442>')
+        client_msg = await message.reply('<@' + str(message.guild.owner_id) + '>, It appears that toxic behaviour took '
+                                                                              'place, do you want to take action?')
+        await client_msg.add_reaction('\u2705')
+        await client_msg.add_reaction('\u274c')
 
     await client.process_commands(message)
 
