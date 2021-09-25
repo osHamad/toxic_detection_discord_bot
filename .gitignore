@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Private testing token
+token.txt
+
 # other
 .idea
 imbalance.py
