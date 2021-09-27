@@ -34,6 +34,13 @@ async def flagged_queue(ctx):
     await ctx.send(embed=embed)
 
 
+@client.command(aliases=['action', 'a'])
+async def take_action(ctx):
+    blop = server.flagged
+    person = blop[-1]
+    await ctx.send(f'this user will be banned: {person.sender}')
+
+
 @client.event
 async def on_ready():
     print('bot is ready')
