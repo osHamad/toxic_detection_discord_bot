@@ -10,7 +10,7 @@ import numpy as np
 
 
 def svm():
-    data_path = 'data.csv'
+    data_path = '../data.csv'
     data_table = read_csv(data_path)
     data_table = data_table.sample(frac=0.01)
     comment = [i for i in data_table['comment_text']]

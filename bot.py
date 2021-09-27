@@ -48,11 +48,41 @@ async def on_message(message):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    if user != client.user:
+    if user.id == user.guild.owner_id:
         if str(reaction.emoji) == "\u2705":
             print('stay')
         if str(reaction.emoji) == "\u274c":
             print('delete')
+
+
+
+
+@client.command(name='feedback', help='Ask person for feedback')
+async def roll(ctx):
+    message = await ctx.send('Are you enjoying this bot? \n :thumbsup: :-1: ')
+
+    thumb_up = '👍'
+    thumb_down = '👎'
+
+    await message.add_reaction(thumb_up)
+    await message.add_reaction(thumb_down)
+
+    def check(reaction, user):
+        return user == ctx.author and str(
+            reaction.emoji) in [thumb_up, thumb_down]
+
+    member = ctx.author
+
+    while True:
+        try:
+            reaction, user = await client.wait_for("reaction_add", timeout=10.0, check=check)
+
+            if str(reaction.emoji) == thumb_up:
+                await ctx.send('Thank you for your feedback')
+
+
+            if str(reaction.emoji) == thumb_down:
+                await ctx.send('Sorry you feel that way')
 
 
 client.run(token)

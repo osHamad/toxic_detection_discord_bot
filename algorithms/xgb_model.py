@@ -9,7 +9,7 @@ import pickle
 
 def xgb():
     # opening data file from disk into read mode
-    data_path = 'data.csv'
+    data_path = '../data.csv'
     data_table = read_csv(data_path)
 
     # sampling data
@@ -49,8 +49,8 @@ def xgb():
     print(matrix[0][1] / (matrix[0][1] + matrix[0][0]))
     print(matrix[1][0] / (matrix[1][0] + matrix[1][1]))
 
-    pickle.dump(model, open('xgb_model.sav', 'wb'))
-    pickle.dump(vectorizer, open('vectorizer.sav', 'wb'))
+    pickle.dump(model, open('../xgb_model.sav', 'wb'))
+    pickle.dump(vectorizer, open('../vectorizer.sav', 'wb'))
 
 
 if __name__ == '__main__':
