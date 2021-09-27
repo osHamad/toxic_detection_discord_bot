@@ -1,6 +1,10 @@
 import pickle
 import discord
 from discord.ext import commands
+from bot_classes.bot_server import  Server
+from bot_classes.flagged_messages import  Flagged
+
+server = Server()
 
 with open('token.txt', 'r') as token_file:
     token = (token_file.read())
@@ -19,10 +23,15 @@ client = commands.Bot(command_prefix='.')
 # 3 strike system
 
 
-@client.command(aliases=['id'])
-async def get_bot_id(ctx):
-    print('activated')
-    await ctx.send(client.user.id)
+@client.command(aliases=['queue', 'q'])
+async def flagged_queue(ctx):
+    all_the = server.list_flags()
+    embed = discord.Embed(title="Flagged Messages",
+                          description="All unresolved flagged toxic behaviour",
+                          color=0xFF5733)
+    for i in all_the:
+        embed.add_field(name=f'{str(i[0])}. {str(i[1])}', value=str(i[2]), inline=False)
+    await ctx.send(embed=embed)
 
 
 @client.event
@@ -36,11 +45,14 @@ async def on_message(message):
     vectorized = loaded_vectorizer.transform(msg)
     prediction = loaded_model.predict(vectorized)
     if prediction == [1] and message.author.id != client.user.id:
+        server.add_flag(Flagged(message, server.get_flag_number()))
+        # for now working only on the notifying mods feature
         if True:
-            client_msg = await message.reply('<@' + str(message.guild.owner_id) + '>, It appears that toxic behaviour took '
-                                                                            'place, do you want to take action?')
-            await client_msg.add_reaction('\u2705')
-            await client_msg.add_reaction('\u274c')
+            await message.reply('<@' + str(message.guild.owner_id) + '> Toxic Behaviour Detected.')
+            #client_msg = await message.reply('<@' + str(message.guild.owner_id) + 'Toxic Behaviour Detected.')
+            # await client_msg.add_reaction('\u2705')
+            # await client_msg.add_reaction('\u274c')
+            # print(dir(message))
 
 
     await client.process_commands(message)
@@ -53,36 +65,5 @@ async def on_reaction_add(reaction, user):
             print('stay')
         if str(reaction.emoji) == "\u274c":
             print('delete')
-
-
-
-
-@client.command(name='feedback', help='Ask person for feedback')
-async def roll(ctx):
-    message = await ctx.send('Are you enjoying this bot? \n :thumbsup: :-1: ')
-
-    thumb_up = '👍'
-    thumb_down = '👎'
-
-    await message.add_reaction(thumb_up)
-    await message.add_reaction(thumb_down)
-
-    def check(reaction, user):
-        return user == ctx.author and str(
-            reaction.emoji) in [thumb_up, thumb_down]
-
-    member = ctx.author
-
-    while True:
-        try:
-            reaction, user = await client.wait_for("reaction_add", timeout=10.0, check=check)
-
-            if str(reaction.emoji) == thumb_up:
-                await ctx.send('Thank you for your feedback')
-
-
-            if str(reaction.emoji) == thumb_down:
-                await ctx.send('Sorry you feel that way')
-
 
 client.run(token)
