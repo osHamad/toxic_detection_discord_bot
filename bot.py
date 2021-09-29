@@ -60,13 +60,10 @@ async def on_message(message):
         if True:
             await message.reply('<@' + str(message.guild.owner_id) + '> Toxic Behaviour Detected.')
             sender = message.author.id
-            try:
-                if server.strikes[sender] == 3:
-                    print('three strikes, you are out')
-            except KeyError:
-                pass
             if sender in server.strikes:
                 server.strikes[sender] += 1
+                if server.strikes[sender] == 3:
+                    print('three strikes, you are out')
             else:
                 server.strikes[sender] = 1
             #client_msg = await message.reply('<@' + str(message.guild.owner_id) + 'Toxic Behaviour Detected.')

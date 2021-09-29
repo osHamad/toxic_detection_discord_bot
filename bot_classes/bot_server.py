@@ -1,6 +1,7 @@
 class Server:
     def __init__(self):
         self.flagged = []
+        self.strikes = {}
         self.flags_number = 1
 
     def add_flag(self, message):
