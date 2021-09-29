@@ -35,10 +35,13 @@ async def flagged_queue(ctx):
 
 
 @client.command(aliases=['action', 'a'])
-async def take_action(ctx):
+async def take_action(ctx, pos=0):
     blop = server.flagged
-    person = blop[-1]
-    await ctx.send(f'this user will be banned: {person.sender}')
+    if len(blop) > 0 and abs(pos) in range(len(blop)):
+        person = blop[pos - 1]
+        await ctx.send(f'this user will be banned: {person.sender} {person.number}')
+    else:
+        await ctx.send('out of range')
 
 
 @client.event
@@ -56,6 +59,16 @@ async def on_message(message):
         # for now working only on the notifying mods feature
         if True:
             await message.reply('<@' + str(message.guild.owner_id) + '> Toxic Behaviour Detected.')
+            sender = message.author.id
+            try:
+                if server.strikes[sender] == 3:
+                    print('three strikes, you are out')
+            except KeyError:
+                pass
+            if sender in server.strikes:
+                server.strikes[sender] += 1
+            else:
+                server.strikes[sender] = 1
             #client_msg = await message.reply('<@' + str(message.guild.owner_id) + 'Toxic Behaviour Detected.')
             # await client_msg.add_reaction('\u2705')
             # await client_msg.add_reaction('\u274c')
