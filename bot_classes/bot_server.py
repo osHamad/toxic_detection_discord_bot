@@ -3,6 +3,8 @@ class Server:
         self.flagged = []
         self.strikes = {}
         self.flags_number = 1
+        self.mod_type = {'ping':True, 'automatic':False, 'democracy':False, 'strikes':True}
+        self.strike_limit = 3
 
     def add_flag(self, message):
         self.flagged.append(message)

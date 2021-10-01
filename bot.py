@@ -17,7 +17,11 @@ loaded_vectorizer = pickle.load(open('vectorizer.sav', 'rb'))
 
 # create the bot object and set prefix to '.'
 client = commands.Bot(command_prefix='.')
+print(dir(client))
 
+@client.command()
+async def guildname(ctx):
+    print(client.guilds)
 
 # display the queue of the flagged messages and their senders
 @client.command(aliases=['queue', 'q'])
@@ -65,18 +69,25 @@ async def on_message(message):
         # add message to the flagged list in server object
         server.add_flag(Flagged(message, server.get_flag_number()))
         # the 'if True' is for a future feature (setting the mod type)
-        if True:
-            await message.reply('<@' + str(message.guild.owner_id) + '> Toxic Behaviour Detected.')
-            sender = message.author.id
+        sendable = ''
+        if server.mod_type['ping']:
+            sendable += '<@ {str(message.guild.owner_id)}> Toxic Behaviour Detected. '
 
-            # adds strikes after each toxic message
-            # the third strike will ban or mute the sender
+
+        # adds strikes after each toxic message
+        # the third strike will ban or mute the sender
+        sender = message.author.id
+        if server.mod_type['strikes']:
             if sender in server.strikes:
                 server.strikes[sender] += 1
-                if server.strikes[sender] == 3:
-                    print('three strikes, you are out')
+                sendable += f'{message.author}, now have {server.strikes[sender]} strikes. '
+                if server.strikes[sender] == server.strike_limit:
+                    sendable += f'{server.strike_limit} strikes, you are out. '
             else:
                 server.strikes[sender] = 1
+                sendable += f'{message.author}, now have 1 strike. '
+
+        await message.reply(sendable)
 
     await client.process_commands(message)
 
