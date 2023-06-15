@@ -25,6 +25,10 @@ Run the following:
 
 `python bot.py`
 
+## Functionality
+
+As of now, the Discord bot only sends a message to the server when it detects toxic behaviour. I will work on features like blocking messages and users, admin controls and penalty systems in the future.
+
 ## Algorithm Performances
 Before selecting the XGB algorithm, I tested a few algorithms to see which is the best for the job.
 
